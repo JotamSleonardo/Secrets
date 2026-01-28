@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct TamSecretsApp: App {
+struct SecretsApp: App {
     @State private var isLoggedIn = false
     
     var body: some Scene {
