@@ -10,13 +10,17 @@ import SwiftUI
 @main
 struct SecretsApp: App {
     @State private var isLoggedIn = false
+    private let container = AppEnvironment.setUpEnvironment().container
     
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {
                 VaultPage()
             } else {
-                LoginPage(isLoggedIn: $isLoggedIn)
+                LoginPage(
+                    viewModel: .init(container: container),
+                    isLoggedIn: $isLoggedIn
+                )
             }
         }
     }

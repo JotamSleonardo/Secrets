@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0BBA8A572F2A686000B52724 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0BBA8A562F2A686000B52724 /* CryptoSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0B5E57482F23513A00B04D3B /* Secrets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Secrets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BBA8A572F2A686000B52724 /* CryptoSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = Secrets;
 			packageProductDependencies = (
+				0BBA8A562F2A686000B52724 /* CryptoSwift */,
 			);
 			productName = TamSecrets;
 			productReference = 0B5E57482F23513A00B04D3B /* Secrets.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 0B5E573F2F23513A00B04D3B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0BBA8A552F2A686000B52724 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0B5E57492F23513A00B04D3B /* Products */;
 			projectDirPath = "";
@@ -332,6 +341,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0BBA8A552F2A686000B52724 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0BBA8A562F2A686000B52724 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BBA8A552F2A686000B52724 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0B5E57402F23513A00B04D3B /* Project object */;
 }
