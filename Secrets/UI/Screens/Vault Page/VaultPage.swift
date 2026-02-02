@@ -12,7 +12,7 @@ struct VaultPage: View {
     @ObservedObject private(set) var viewModel: ViewModel = ViewModel()
 
     @State private var showAddSheet = false
-    @State private var editingItem: VaultItem? = nil
+    @State private var editingItem: VaultItemEntry? = nil
 
     var body: some View {
         NavigationStack {
@@ -112,7 +112,7 @@ struct VaultPage: View {
         }
     }
 
-    private var filtered: [VaultItem] {
+    private var filtered: [VaultItemEntry] {
         let q = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard !q.isEmpty else { return viewModel.items }
 
@@ -124,15 +124,15 @@ struct VaultPage: View {
         }
     }
 
-    private var favorites: [VaultItem] {
+    private var favorites: [VaultItemEntry] {
         self.filtered.filter { $0.isFavorite }
     }
 
-    private var allItems: [VaultItem] {
+    private var allItems: [VaultItemEntry] {
         self.filtered.filter { !$0.isFavorite }
     }
 
-    private func delete(_ item: VaultItem) {
+    private func delete(_ item: VaultItemEntry) {
         viewModel.items.removeAll { $0.id == item.id }
     }
 }

@@ -12,14 +12,14 @@ internal import Combine
 @MainActor
 extension VaultPage {
     class ViewModel: ObservableObject {
-        @Published var items: [VaultItem] = []
+        @Published var items: [VaultItemEntry] = []
         @Published var searchText: String = ""
 
-        func add(_ item: VaultItem) {
+        func add(_ item: VaultItemEntry) {
             items.insert(item, at: 0)
         }
 
-        func edit(_ item: VaultItem) {
+        func edit(_ item: VaultItemEntry) {
             guard let idx = items.firstIndex(where: { $0.id == item.id }) else { return }
             items[idx] = item
         }
@@ -28,7 +28,7 @@ extension VaultPage {
             items.remove(atOffsets: offsets)
         }
 
-        func toggleFavorite(_ item: VaultItem) {
+        func toggleFavorite(_ item: VaultItemEntry) {
             guard let idx = items.firstIndex(where: { $0.id == item.id }) else { return }
             items[idx].isFavorite.toggle()
             items[idx].updatedAt = Date()

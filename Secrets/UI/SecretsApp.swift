@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SecretsApp: App {
@@ -22,6 +23,6 @@ struct SecretsApp: App {
                     isLoggedIn: $isLoggedIn
                 )
             }
-        }
+        }.modelContainer(for: VaultItem.self)
     }
 }
