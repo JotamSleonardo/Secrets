@@ -19,9 +19,11 @@ struct DIContainer {
 extension DIContainer {
     struct Services {
         let loginPageService: LoginPageService
+        let vaultPageService: VaultPageService
         
-        init(loginPageService: LoginPageService) {
+        init(loginPageService: LoginPageService, vaultPageService: VaultPageService) {
             self.loginPageService = loginPageService
+            self.vaultPageService = vaultPageService
         }
     }
 }

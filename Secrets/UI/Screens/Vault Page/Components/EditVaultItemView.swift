@@ -10,17 +10,17 @@ import SwiftUI
 struct EditVaultItemView: View {
     enum Mode {
         case add
-        case edit(VaultItemEntry)
+        case edit(VaultItem)
 
         var title: String { self.isAdd ? "New Secret" : "Edit Secret" }
         var isAdd: Bool {
             if case .add = self { return true }
             return false
         }
-        var initial: VaultItemEntry {
+        var initial: VaultItem {
             switch self {
             case .add:
-                return VaultItemEntry(title: "", username: "", password: "", url: "", notes: "", isFavorite: false)
+                return VaultItem(title: "", username: "", password: "", url: "", notes: "", isFavorite: false)
             case .edit(let item):
                 return item
             }
@@ -28,7 +28,7 @@ struct EditVaultItemView: View {
     }
 
     let mode: Mode
-    let onSave: (VaultItemEntry) -> Void
+    let onSave: (VaultItem) -> Void
 
     @Environment(\.dismiss) private var dismiss
 

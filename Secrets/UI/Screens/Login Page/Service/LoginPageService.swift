@@ -54,7 +54,4 @@ struct LoginPageService: LoginPageType {
         let verifier = Data(SHA256.hash(data: key))
         guard verifier == master.verifier else { throw AuthError.wrongPassword }
     }
-    
 }
-
-

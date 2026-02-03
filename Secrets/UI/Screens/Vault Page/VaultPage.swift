@@ -9,10 +9,10 @@ import SwiftUI
 internal import Combine
 
 struct VaultPage: View {
-    @ObservedObject private(set) var viewModel: ViewModel = ViewModel()
+    @ObservedObject private(set) var viewModel: ViewModel
 
     @State private var showAddSheet = false
-    @State private var editingItem: VaultItemEntry? = nil
+    @State private var editingItem: VaultItem? = nil
 
     var body: some View {
         NavigationStack {
@@ -112,7 +112,7 @@ struct VaultPage: View {
         }
     }
 
-    private var filtered: [VaultItemEntry] {
+    private var filtered: [VaultItem] {
         let q = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard !q.isEmpty else { return viewModel.items }
 
@@ -124,15 +124,15 @@ struct VaultPage: View {
         }
     }
 
-    private var favorites: [VaultItemEntry] {
+    private var favorites: [VaultItem] {
         self.filtered.filter { $0.isFavorite }
     }
 
-    private var allItems: [VaultItemEntry] {
+    private var allItems: [VaultItem] {
         self.filtered.filter { !$0.isFavorite }
     }
 
-    private func delete(_ item: VaultItemEntry) {
+    private func delete(_ item: VaultItem) {
         viewModel.items.removeAll { $0.id == item.id }
     }
 }

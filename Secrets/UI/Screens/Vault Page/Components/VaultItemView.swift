@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct VaultItemView: View {
-    let item: VaultItemEntry
+    let item: VaultItem
     @State private var revealPassword = false
 
     public var body: some View {

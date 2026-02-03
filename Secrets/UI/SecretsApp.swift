@@ -11,12 +11,17 @@ import SwiftData
 @main
 struct SecretsApp: App {
     @State private var isLoggedIn = false
-    private let container = AppEnvironment.setUpEnvironment().container
+
+    private let modelContainer: ModelContainer = {
+        try! ModelContainer(for: VaultItem.self)
+    }()
+    private var modelContext: ModelContext { modelContainer.mainContext }
+    private var container: DIContainer { AppEnvironment.setUpEnvironment(with: modelContext).container }
     
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {
-                VaultPage()
+                VaultPage(viewModel: .init(container: container))
             } else {
                 LoginPage(
                     viewModel: .init(container: container),

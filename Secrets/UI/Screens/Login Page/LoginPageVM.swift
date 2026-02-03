@@ -11,7 +11,7 @@ import SwiftUI
 
 @MainActor
 extension LoginPage {
-    class ViewModel: ObservableObject {
+    public final class ViewModel: ObservableObject {
         let container: DIContainer
         
         // View State

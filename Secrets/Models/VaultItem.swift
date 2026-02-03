@@ -20,16 +20,16 @@ final class VaultItem: Identifiable {
     var createdAt: Date
     var updatedAt: Date
     
-    init(id: UUID,
-         title: String,
-         username: String? = nil,
-         passwordCipher: Data,
-         notesCipher: Data? = nil,
-         isFavorite: Bool,
-         createdAt: Date,
-         updatedAt: Date
+    init(
+        title: String,
+        username: String? = nil,
+        passwordCipher: Data,
+        notesCipher: Data? = nil,
+        isFavorite: Bool = false,
+        createdAt: Date = .now,
+        updatedAt: Date = .now
     ) {
-        self.id = id
+        self.id = UUID()
         self.title = title
         self.username = username
         self.passwordCipher = passwordCipher
