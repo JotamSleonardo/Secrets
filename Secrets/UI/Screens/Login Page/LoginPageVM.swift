@@ -49,6 +49,7 @@ extension LoginPage {
                 } catch {
                     self.errorMessage = "Something went wrong."
                 }
+                self.isLoading = false
             }
             
         }

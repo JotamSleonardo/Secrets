@@ -9,6 +9,10 @@ import SwiftUI
 
 public struct VaultItemView: View {
     let item: VaultItemDTO
+    let onTap: () -> Void
+    let onDelete: () -> Void
+    let onToggleFavorite: () -> Void
+
     @State private var revealPassword = false
 
     public var body: some View {
@@ -74,7 +78,6 @@ public struct VaultItemView: View {
                         Label("Copy Password", systemImage: "doc.on.doc")
                     }
                 }
-
                 /// TODO: Add url
 //                if !item.url.isEmpty {
 //                    Button {
@@ -92,5 +95,25 @@ public struct VaultItemView: View {
             }
         }
         .padding(.vertical, 6)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            self.onTap()
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) {
+                self.onDelete()
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+        .swipeActions(edge: .leading, allowsFullSwipe: false) {
+            Button {
+                self.onToggleFavorite()
+            } label: {
+                Label(item.isFavorite ? "Unfavorite" : "Favorite",
+                      systemImage: item.isFavorite ? "star.slash" : "star")
+            }
+            .tint(.yellow)
+        }
     }
 }

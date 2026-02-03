@@ -12,5 +12,6 @@ struct VaultItemDTO: Identifiable {
     let username: String
     let password: String
     let isFavorite: Bool
+    let notes: String
     let updatedAt: Date
 }

@@ -13,61 +13,48 @@ struct VaultPage: View {
     @EnvironmentObject var session: VaultSession
 
     @State private var showAddSheet = false
-    @State private var editingItem: VaultItem? = nil
-    private let itemsample = VaultItemDTO(id: UUID(), title: "", username: "", password: "", isFavorite: false, updatedAt: Date.now)
-
+    @State private var editingItem: VaultItemDTO? = nil
+    
     var body: some View {
+        let favoriteItems = viewModel.getFavoritesItems()
+        let allOtherItems = viewModel.getOtherItems()
+        
         NavigationStack {
             List {
-                if !favorites.isEmpty {
+                if favoriteItems.isNotEmpty {
                     Section("Favorites") {
-                        ForEach(favorites) { item in
-                            VaultItemView(item: itemsample)
-                                .contentShape(Rectangle())
-                                .onTapGesture { editingItem = item }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        delete(item)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
+                        ForEach(favoriteItems) { item in
+                            VaultItemView(
+                                item: item,
+                                onTap: {
+                                    self.editingItem = item
+                                },
+                                onDelete: {
+                                    viewModel.delete(item)
+                                },
+                                onToggleFavorite: {
+                                    /// TODO: add toggle favorite
                                 }
-                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    Button {
-                                        viewModel.toggleFavorite(item)
-                                    } label: {
-                                        Label(item.isFavorite ? "Unfavorite" : "Favorite",
-                                              systemImage: item.isFavorite ? "star.slash" : "star")
-                                    }
-                                    .tint(.yellow)
-                                }
+                            )
                         }
                     }
                 }
-                if !allItems.isEmpty {
+                if allOtherItems.isNotEmpty {
                     Section("All") {
-                        ForEach(allItems) { item in
-                            VaultItemView(item: itemsample)
-                                .contentShape(Rectangle())
-                                .onTapGesture { editingItem = item }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        delete(item)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                    }
+                        ForEach(allOtherItems) { item in
+                            VaultItemView(
+                                item: item,
+                                onTap: {
+                                    self.editingItem = item
+                                },
+                                onDelete: {
+                                    viewModel.delete(item)
+                                },
+                                onToggleFavorite: {
+                                    /// TODO: add toggle favorite
                                 }
-                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    Button {
-                                        viewModel.toggleFavorite(item)
-                                    } label: {
-                                        Label(item.isFavorite ? "Unfavorite" : "Favorite",
-                                              systemImage: item.isFavorite ? "star.slash" : "star")
-                                    }
-                                    .tint(.yellow)
-                                }
+                            )
                         }
-                        .onDelete(perform: viewModel.delete)
                     }
                 }
             }
@@ -102,40 +89,24 @@ struct VaultPage: View {
                 }
             }
             .sheet(isPresented: $showAddSheet) {
-                EditVaultItemView(mode: .add) { newItem in
+                VaultItemFormView(mode: .add) { newItem in
                     viewModel.add(newItem)
+                    viewModel.getItems()
                 }
             }
             .sheet(item: $editingItem) { item in
-//                EditVaultItemView(mode: .edit(item)) { updated in
-//                    viewModel.edit(updated)
+//                VaultItemFormView(mode: .edit(item)) { updateVaultItem in
+//                    viewModel.edit(updateVaultItem)
 //                }
+            }
+            .onAppear {
+                viewModel.getItems()
             }
         }
     }
 
+    // TODO: Add filtering/ searching.
     private var filtered: [VaultItem] {
-        let q = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        guard !q.isEmpty else { return viewModel.items }
-
         return []
-//        return self.viewModel.items.filter { item in
-//            item.title.lowercased().contains(q) ||
-//            item.username.lowercased().contains(q) ||
-//            item.url.lowercased().contains(q) ||
-//            item.notes.lowercased().contains(q)
-//        }
-    }
-
-    private var favorites: [VaultItem] {
-        self.filtered.filter { $0.isFavorite }
-    }
-
-    private var allItems: [VaultItem] {
-        self.filtered.filter { !$0.isFavorite }
-    }
-
-    private func delete(_ item: VaultItem) {
-        viewModel.items.removeAll { $0.id == item.id }
     }
 }

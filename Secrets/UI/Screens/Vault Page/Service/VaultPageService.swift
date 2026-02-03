@@ -10,8 +10,8 @@ import CryptoKit
 
 protocol VaultPageServiceType {
     func list(using key: SymmetricKey) throws -> [VaultItemDTO]
-    func add(title: String, username: String, password: String, using key: SymmetricKey) throws
-    func update(id: UUID, title: String, username: String, password: String, using key: SymmetricKey) throws
+    func add(vaultItem: VaultItemForm, using key: SymmetricKey) throws
+    func update(vaultItem: VaultItemForm, using key: SymmetricKey) throws
     func delete(id: UUID) throws
 }
 
@@ -27,12 +27,12 @@ public final class VaultPageService: VaultPageServiceType {
         try repo.list(using: key)
     }
 
-    func add(title: String, username: String, password: String, using key: SymmetricKey) throws {
-        try repo.add(title: title, username: username, password: password, using: key)
+    func add(vaultItem: VaultItemForm, using key: SymmetricKey) throws {
+        try repo.add(vaultItem: vaultItem, using: key)
     }
 
-    func update(id: UUID, title: String, username: String, password: String, using key: SymmetricKey) throws {
-        try repo.update(id: id, title: title, username: username, password: password, using: key)
+    func update(vaultItem: VaultItemForm, using key: SymmetricKey) throws {
+        try repo.update(vaultItem: vaultItem, using: key)
     }
 
     func delete(id: UUID) throws {

@@ -10,7 +10,7 @@ internal import Combine
 @MainActor
 final class VaultSession: ObservableObject {
     @Published private(set) var isUnlocked = false
-    private var key: SymmetricKey?
+    private(set) var key: SymmetricKey?
 
     func unlock(with key: SymmetricKey) {
         self.key = key

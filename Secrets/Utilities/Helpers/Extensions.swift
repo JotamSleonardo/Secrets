@@ -30,3 +30,9 @@ extension String {
         return combined
     }
 }
+
+extension Collection {
+    var isNotEmpty: Bool {
+        !isEmpty
+    }
+}
