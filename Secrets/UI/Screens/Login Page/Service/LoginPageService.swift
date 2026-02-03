@@ -19,7 +19,7 @@ enum AuthError: Error {
 protocol LoginPageType {
     func masterExists() -> Bool
     func registerMaster(password: String, confirm: String) throws
-    func unlock(password: String) throws
+    func unlock(password: String) async throws -> SymmetricKey
 }
 
 struct LoginPageService: LoginPageType {
@@ -46,12 +46,15 @@ struct LoginPageService: LoginPageType {
         try repo.saveMaster(salt: salt, verifier: verifier)
     }
     
-    func unlock(password: String) throws {
-        guard let master = try repo.loadMaster() else { throw AuthError.masterNotSet }
-
-        let key = try PBKDF2.deriveKey(password: password, salt: master.salt)
-
-        let verifier = Data(SHA256.hash(data: key))
-        guard verifier == master.verifier else { throw AuthError.wrongPassword }
+    func unlock(password: String) async throws -> SymmetricKey {
+        try await Task.detached(priority: .userInitiated) {
+            guard let master = try await repo.loadMaster() else { throw AuthError.masterNotSet }
+            
+            let key = try await PBKDF2.deriveKey(password: password, salt: master.salt)
+            let verifier = Data(SHA256.hash(data: key))
+            guard verifier == master.verifier else { throw AuthError.wrongPassword }
+            
+            return SymmetricKey(data: key)
+        }.value
     }
 }

@@ -53,19 +53,19 @@ extension LoginPage {
             
         }
         
-        public func unlockVault(onSuccess: @escaping () -> Void) {
+        public func unlockVault() {
             errorMessage = nil
             isLoading = true
-            
-            
-            /// TODO: Try to run this in the background so the UI doesn't Freeze.
+
             Task {
+                try? await Task.sleep(for: .seconds(1.5))
                 do {
-                    try self.container
+                    let key = try await self.container
                         .services
                         .loginPageService
                         .unlock(password: self.masterPassword)
-                    onSuccess()
+
+                    self.container.session.unlock(with: key)
                 } catch AuthError.wrongPassword {
                     self.errorMessage = K.invalidPassword
                 } catch {

@@ -22,7 +22,7 @@ extension VaultPage {
         }
         
         func getItems() {
-            self.container.services.vaultPageService.list(using: <#T##SymmetricKey#>)
+//            self.container.services.vaultPageService.
         }
 
         func add(_ item: VaultItem) {

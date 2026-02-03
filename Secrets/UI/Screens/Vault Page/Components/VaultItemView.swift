@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct VaultItemView: View {
-    let item: VaultItem
+    let item: VaultItemDTO
     @State private var revealPassword = false
 
     public var body: some View {
@@ -75,15 +75,16 @@ public struct VaultItemView: View {
                     }
                 }
 
-                if !item.url.isEmpty {
-                    Button {
-                        if let url = URL(string: item.url) {
-                            UIApplication.shared.open(url)
-                        }
-                    } label: {
-                        Label("Open Website", systemImage: "safari")
-                    }
-                }
+                /// TODO: Add url
+//                if !item.url.isEmpty {
+//                    Button {
+//                        if let url = URL(string: item.url) {
+//                            UIApplication.shared.open(url)
+//                        }
+//                    } label: {
+//                        Label("Open Website", systemImage: "safari")
+//                    }
+//                }
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(.secondary)

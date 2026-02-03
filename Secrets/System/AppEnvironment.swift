@@ -13,6 +13,7 @@ struct AppEnvironment {
     let container: DIContainer
     
     static func setUpEnvironment(with context: ModelContext) -> AppEnvironment {
+        let session = VaultSession()
         let loginPageRepository: LoginPageRepository = LoginPageRepositoryImpl(
             store: KeychainStore(service: K.keychainServiceKey),
             saltKey: K.saltKey,
@@ -32,7 +33,7 @@ struct AppEnvironment {
             vaultPageService: vaultPageService
         )
         
-        let diContainer = DIContainer(services: services)
+        let diContainer = DIContainer(services: services, session: session)
         
         return AppEnvironment(container: diContainer)
     }

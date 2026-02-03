@@ -10,9 +10,11 @@ internal import Combine
 
 struct VaultPage: View {
     @ObservedObject private(set) var viewModel: ViewModel
+    @EnvironmentObject var session: VaultSession
 
     @State private var showAddSheet = false
     @State private var editingItem: VaultItem? = nil
+    private let itemsample = VaultItemDTO(id: UUID(), title: "", username: "", password: "", isFavorite: false, updatedAt: Date.now)
 
     var body: some View {
         NavigationStack {
@@ -20,7 +22,7 @@ struct VaultPage: View {
                 if !favorites.isEmpty {
                     Section("Favorites") {
                         ForEach(favorites) { item in
-                            VaultItemView(item: item)
+                            VaultItemView(item: itemsample)
                                 .contentShape(Rectangle())
                                 .onTapGesture { editingItem = item }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -45,7 +47,7 @@ struct VaultPage: View {
                 if !allItems.isEmpty {
                     Section("All") {
                         ForEach(allItems) { item in
-                            VaultItemView(item: item)
+                            VaultItemView(item: itemsample)
                                 .contentShape(Rectangle())
                                 .onTapGesture { editingItem = item }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -76,7 +78,7 @@ struct VaultPage: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Menu {
                         Button {
-                            // Hook this to your lock action (e.g., set isUnlocked = false)
+                            self.session.lock()
                         } label: {
                             Label("Lock Vault", systemImage: "lock.fill")
                         }
@@ -105,9 +107,9 @@ struct VaultPage: View {
                 }
             }
             .sheet(item: $editingItem) { item in
-                EditVaultItemView(mode: .edit(item)) { updated in
-                    viewModel.edit(updated)
-                }
+//                EditVaultItemView(mode: .edit(item)) { updated in
+//                    viewModel.edit(updated)
+//                }
             }
         }
     }
@@ -116,12 +118,13 @@ struct VaultPage: View {
         let q = viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard !q.isEmpty else { return viewModel.items }
 
-        return self.viewModel.items.filter { item in
-            item.title.lowercased().contains(q) ||
-            item.username.lowercased().contains(q) ||
-            item.url.lowercased().contains(q) ||
-            item.notes.lowercased().contains(q)
-        }
+        return []
+//        return self.viewModel.items.filter { item in
+//            item.title.lowercased().contains(q) ||
+//            item.username.lowercased().contains(q) ||
+//            item.url.lowercased().contains(q) ||
+//            item.notes.lowercased().contains(q)
+//        }
     }
 
     private var favorites: [VaultItem] {

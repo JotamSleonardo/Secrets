@@ -10,9 +10,11 @@ import Foundation
 struct DIContainer {
     
     let services: Services
+    let session: VaultSession
     
-    init(services: Services) {
+    init(services: Services, session: VaultSession) {
         self.services = services
+        self.session = session
     }
 }
 

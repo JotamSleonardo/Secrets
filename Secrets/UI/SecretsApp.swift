@@ -10,24 +10,21 @@ import SwiftData
 
 @main
 struct SecretsApp: App {
-    @State private var isLoggedIn = false
-
-    private let modelContainer: ModelContainer = {
-        try! ModelContainer(for: VaultItem.self)
-    }()
-    private var modelContext: ModelContext { modelContainer.mainContext }
-    private var container: DIContainer { AppEnvironment.setUpEnvironment(with: modelContext).container }
+    private let modelContainer: ModelContainer
+    private let container: DIContainer
+    
+    init() {
+        self.modelContainer = try! ModelContainer(for: VaultItem.self)
+        self.container = AppEnvironment.setUpEnvironment(
+            with: self.modelContainer.mainContext
+        ).container
+    }
     
     var body: some Scene {
         WindowGroup {
-            if isLoggedIn {
-                VaultPage(viewModel: .init(container: container))
-            } else {
-                LoginPage(
-                    viewModel: .init(container: container),
-                    isLoggedIn: $isLoggedIn
-                )
-            }
-        }.modelContainer(for: VaultItem.self)
+            RootView(container: container)
+                .environmentObject(container.session)
+        }
+        .modelContainer(modelContainer)
     }
 }

@@ -10,17 +10,24 @@ import SwiftUI
 struct EditVaultItemView: View {
     enum Mode {
         case add
-        case edit(VaultItem)
+        case edit(VaultItemDTO)
 
         var title: String { self.isAdd ? "New Secret" : "Edit Secret" }
         var isAdd: Bool {
             if case .add = self { return true }
             return false
         }
-        var initial: VaultItem {
+        var initial: VaultItemDTO {
             switch self {
             case .add:
-                return VaultItem(title: "", username: "", password: "", url: "", notes: "", isFavorite: false)
+                return VaultItemDTO(
+                    id: UUID(),
+                    title: "",
+                    username: "",
+                    password: "",
+                    isFavorite: false,
+                    updatedAt: Date.now
+                )
             case .edit(let item):
                 return item
             }
@@ -99,24 +106,24 @@ struct EditVaultItemView: View {
                 title = initial.title
                 username = initial.username
                 password = initial.password
-                url = initial.url
-                notes = initial.notes
+//                url = initial.url
+//                notes = initial.notes
                 isFavorite = initial.isFavorite
             }
         }
     }
 
     private func save() {
-        var base = mode.initial
-        base.title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        base.username = username
-        base.password = password
-        base.url = url
-        base.notes = notes
-        base.isFavorite = isFavorite
-        base.updatedAt = Date()
-
-        onSave(base)
+//        var base = mode.initial
+//        base.title = title.trimmingCharacters(in: .whitespacesAndNewlines)
+//        base.username = username
+//        base.password = password
+//        base.url = url
+//        base.notes = notes
+//        base.isFavorite = isFavorite
+//        base.updatedAt = Date()
+//
+//        onSave(base)
         dismiss()
     }
 }

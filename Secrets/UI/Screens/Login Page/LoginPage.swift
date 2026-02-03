@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoginPage: View {
     @ObservedObject private(set) var viewModel: ViewModel
-    @Binding public var isLoggedIn: Bool
 
     var body: some View {
         VStack(spacing: 24) {
@@ -50,9 +49,7 @@ struct LoginPage: View {
                 if viewModel.isCreatingAccount {
                     viewModel.createVault()
                 } else {
-                    viewModel.unlockVault(onSuccess: {
-                        self.isLoggedIn = true
-                    })
+                    viewModel.unlockVault()
                 }
             } label: {
                 if viewModel.isLoading {
